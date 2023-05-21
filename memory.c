@@ -11,7 +11,7 @@ void free_strings(char **array)
 	int i;
 
 	i = 0;
-	while (arrayy[i] != '\0')
+	while (*array[i] != '\0')
 	{
 		free(array[i]);
 		i++;

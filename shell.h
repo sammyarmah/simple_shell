@@ -46,4 +46,7 @@ int empty_prompt(char *u_input);
 int path_prompt(char *cmd);
 int env_prompt(char *u_input);
 
+/* number_functions */
+int _atoi(char *str);
+void print_number(int n);
 #endif
