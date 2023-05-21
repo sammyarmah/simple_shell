@@ -12,7 +12,7 @@ int _atoi(char *str)
 
 	ind = 0;
 	neg_c = 0;
-	while (!(str[ind] >= '0' && str[ind] <= '9') && 0str[ind] != '\0')
+	while (!(str[ind] >= '0' && str[ind] <= '9') && str[ind] != '\0')
 	{
 		if (str[ind] == '-')
 			neg_c++;
@@ -48,7 +48,7 @@ void print_number(int n)
 		sum += digit;
 		if (sum != 0)
 			_putchar(digit + '0');
-		divisor = divis / 10;
+		divisor = divisor / 10;
 	}
 	last = num % 10;
 	_putchar(last + '0');

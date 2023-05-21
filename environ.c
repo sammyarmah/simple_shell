@@ -39,7 +39,7 @@ char **path_array(char **env)
 	while (env[i] != NULL)
 	{
 		comp = _strcmp(env[i], "PATH");
-		if (com == 0)
+		if (comp  == 0)
 		{
 			mypath = _strdup(env[i]);
 			p_count = path_count(mypath);
@@ -75,39 +75,51 @@ char **path_array(char **env)
  * find_path - find the PATH to a command
  * @array: array of directories in PATH
  * @cmd: command to find path for
- *
  * Return: path of command, NULL if it fails
  */
 char *find_path(char **array, char *cmd)
 {
-	int i, j, dir_len, cmd_len, total_len;
+	int i, j, ok_f = 0, ok_x = 0, dir_len, com_len, total_len;
 	char *path;
 
 	for (i = 0; array[i] != NULL; i++)
 	{
 		dir_len = _strlen(array[i]);
 		com_len = _strlen(cmd);
-		total_len = dir_len + com_len + 2;
-		path = (char *)malloc(total_len * sizeof(char));
+		total_len = dir_len + com_len;
+		path = malloc(sizeof(char) * (total_len + 2));
 		if (path == NULL)
 		{
 			free_strings(array);
-			return NULL;
+			return (NULL);
 		}
-		_strncpy(path, array[i], dir_len);
-		path[dir_len] = '/';
-		_strncpy(path + dir_len + 1, cmd, cmd_len);
-		path[total_len - 1] = '\0';
+		j = 0;
+		while (j < dir_len)
+		{
+			path[j] = array[i][j];
+			j++;
+		}
+		path[j] = '/';
+		j = 0;
+		while (j < com_len)
+		{
+			path[dir_len + j + 1] = cmd[j];
+			j++;
+		}
+		path[total_len + 1] = '\0';
+		ok_f = access(path, F_OK);
+		ok_x = access(path, X_OK);
+		if (ok_f == 0)
+		{
+			if (ok_x == 0)
 
-		if (access(path, F_OK) == 0)
-			if (access(path, X_OK) == 0)
-				return path;
+				return (path);
+			free(path);
+			return ("no_access");
+		}
 		free(path);
-		return "no_access";
 	}
-	free(path);
-    }
-    return NULL;
+	return (NULL);
 }
 
 /**
