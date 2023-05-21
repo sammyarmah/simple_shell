@@ -6,6 +6,7 @@
 #include <string.h>
 
 extern int exit_code;
+extern int error_count;
 
 /* environ_func */
 int path_count(char *p);
@@ -22,5 +23,9 @@ int _strlen(char *str);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 int _putchar(char c);
+
+/* parsing inputs */
+int arg_c(char *u);
+char **p_input(char *u_input, char **p_array, char *Name);
 
 #endif
