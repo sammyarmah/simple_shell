@@ -34,4 +34,10 @@ char **p_input(char *u_input, char **p_array, char *Name);
 /* fork_func */
 void f_w_exec(char **cmds, char **p_array, char **env, char *Name, char *u_input);
 
+/* error_function */
+void cmd_err(char *Name, char *cmd);
+void exec_err(char *Name, char *cmd);
+void access_err(char *Name, char *cmd);
+void exit_err(char *Name, char u_input);
+
 #endif
