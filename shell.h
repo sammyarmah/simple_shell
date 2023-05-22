@@ -1,9 +1,12 @@
 #ifndef SHELL_H
 #define SHELL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/hold.h>
+
 
 extern int exit_code;
 extern int error_count;
@@ -27,5 +30,8 @@ int _putchar(char c);
 /* parsing inputs */
 int arg_c(char *u);
 char **p_input(char *u_input, char **p_array, char *Name);
+
+/* fork_func */
+void f_w_exec(char **cmds, char **p_array, char **env, char *Name, char *u_input);
 
 #endif
