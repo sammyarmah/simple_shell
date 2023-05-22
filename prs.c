@@ -42,7 +42,7 @@ char **p_input(char *u_input, char **p_array, char *Name)
 
 	int args;
 	int i;
-	char **commands;
+	char **cmds;
 	char *token;
 	char *dir_path;
 
@@ -51,8 +51,8 @@ char **p_input(char *u_input, char **p_array, char *Name)
 	dir_path = NULL;
 
 	args = arg_counter(u_input);
-	commands = malloc(sizeof(char *) * (args + 1));
-	if (commands == NULL)
+	cmds = malloc(sizeof(char *) * (args + 1));
+	if (cmds == NULL)
 	{
 		free_array(p_array);
 		return (NULL);
@@ -63,30 +63,30 @@ char **p_input(char *u_input, char **p_array, char *Name)
 		dir_path = find_path(p_array, token);
 		if (dir_path == NULL)
 		{
-			free(commands);
+			free(cmds);
 			free_array(p_array);
-			command_error(Name, token);
-			exit_code = 000;
+			cmds_error(Name, token);
+			exit_code = 100;
 			return (NULL);
 		}
 		else if (_strcmp("no_access", dir_path) == 0)
 		{
-			free(commands);
+			free(cmds);
 			free_array(p_array);
 			access_error(Name, token);
 			exit_code = 111;
 			return (NULL);
 		}
-		commands[0] = _strdup(dir_path);
+		cmds[0] = _strdup(dir_path);
 		free(dir_path);
 	}
 	else
-		commands[0] = _strdup(token);
+		cmds[0] = _strdup(token);
 	for (i = 1; i < args; i++)
 	{
 		token = strtok(0, "\n ");
-		commands[i] = _strdup(token);
+		cmds[i] = _strdup(token);
 	}
-	commands[i] = NULL;
-	return (commands);
+	cmds[i] = NULL;
+	return (cmds);
 }
