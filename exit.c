@@ -54,13 +54,15 @@ int empty_prompt(char *u_input)
  * path_prompt - checks path
  * @cmd: string path
  *
- * Return: 0 is sucess, otherwise -1
+ * Return: 0 is success, otherwise -1
  */
 
 int path_prompt(char *cmd)
 {
 	if (cmd[0] == '/')
 		return (0);
+
+
 	return (-1);
 }
 
@@ -68,7 +70,7 @@ int path_prompt(char *cmd)
  * env_prompt - command env
  * @u_input: string that compares to enc
  *
- * Return: 0 succes, otherwise 1
+ * Return: 0 success, otherwise 1
  */
 
 int env_prompt(char *u_input)
