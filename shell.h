@@ -40,4 +40,10 @@ void exec_err(char *Name, char *cmd);
 void access_err(char *Name, char *cmd);
 void exit_err(char *Name, char u_input);
 
+/* exit_command */
+int exit_prompt(char *u_input, char *Name);
+int empty_prompt(char *u_input);
+int path_prompt(char *cmd);
+int env_prompt(char *u_input);
+
 #endif
