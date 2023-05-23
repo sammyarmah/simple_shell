@@ -39,10 +39,10 @@ void f_w_exec(char **cmds, char **p_array, char **env, char *Name, char *u_input
 void cmd_err(char *Name, char *cmd);
 void exec_err(char *Name, char *cmd);
 void access_err(char *Name, char *cmd);
-void exit_err(char *Name, char u_input);
+void exit_err(char *NAME, char *inputs);
 
 /* exit_command */
-int exit_prompt(char *u_input, char *Name);
+int exit_prompt(char *u_input, char *NAME);
 int empty_prompt(char *u_input);
 int path_prompt(char *cmd);
 int env_prompt(char *u_input);

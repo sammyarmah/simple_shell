@@ -7,34 +7,53 @@
  *
  * Return: 0 if success, otherwise -1
  */
-
-int exit_prompt(char *u_input, char *Name)
+int exit_prompt(char *u_input, char *NAME)
 {
+	int i, j, len, size, status;
+	char *num;
 	const char *exit_cmd = "exit";
-	int len = _strlen(u_input);
-	int status = 0;
 
-	if (_strncmp(u_input, exit_cmd, _strlen(exit_cmd)) != 0)
-		return (0);
-
-	if (len > _strlen(exit_cmd))
+	len = _strlen(u_input);
+	size = len - 5;
+	status = 0;
+	for (i = 0; i < 4; i++)
 	{
-		char *num_1 = u_input + _strlen(exit_cmd);
-		char *end_ptr;
-		status = _strtol(num_1, &end_ptr, 100);
-
-		if (*end_ptr != '\n' && *end_ptr != ' ')
+		if (exit_cmd[i] != u_input[i])
+			return (0);
+	}
+	if (u_input[4] != '\n' && u_input[4] != ' ')
+		return (0);
+	if (len > 5)
+	{
+		num = malloc(sizeof(char) * (size + 1));
+		if (num == NULL)
 		{
-			exit_err(Name, u_input);
-			exit_code = 99;
+			perror("malloc");
 			return (-1);
 		}
+		j = 0;
+		for (i = 5; i < len - 1; i++)
+		{
+			if (u_input[i] >= '0' && u_input[i] <= '9')
+			{
+				num[j] = u_input[i];
+				j++;
+			}
+			else
+			{
+				exit_err(NAME, u_input);
+				free(num);
+				exit_code = 2;
+				return (-1);
+			}
+		}
+		num[j] = '\0';
+		status = _atoi(num);
+		free(num);
 	}
-
 	free(u_input);
 	exit(status);
 }
-
 /**
  * empty_prompt - checks empty user input
  * @u_input: compares string
@@ -75,9 +94,9 @@ int path_prompt(char *cmd)
 
 int env_prompt(char *u_input)
 {
-	const char *env_cmd = "env"
+	const char *env_cmd = "env";
 	
-	if (_strcmp(u_input, env_cmd) == 0)
+	if (strcmp(u_input, env_cmd) == 0)
 		return (0);
 
 	return (1);

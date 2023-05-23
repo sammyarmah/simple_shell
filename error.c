@@ -1,34 +1,47 @@
 #include "shell.h"
 
-/*
- * cmd_err - prints error when incorrect command is entered
- * @Name: program name
- * @cmd: incorrect command
- *
+/**
+ * cmd_err - prints error message when command is not found
+ * @NAME: name of program
+ * @cmd: command not found
  */
-
-void cmd_err(char *Name, char *cmd)
+void cmd_err(char *NAME, char *cmd)
 {
-	fprintf(stderr, "%s: %s: incorrect\n", Name, cmd);
-	exit_code = 100;
+	fprintf(stderr, "%s: %s: not found\n", NAME, cmd);
+	exit_code = 127;
 }
 
-void exec_err(char *Name, char *cmd)
+/**
+ * exec_err - prints error message when command fails to execute
+ * @NAME: name of program
+ * @cmd: name of command
+ */
+void exec_err(__attribute__((unused)) char *NAME, char *cmd)
 {
-	p_err(cmd);
+	perror(cmd);
 	exit_code = 2;
 }
 
-void access_err(char *Name, char *cmd)
+/**
+ * access_err - prints error message if user does not have execute privileges
+ * @NAME: name of program
+ * @cmd: name of command
+ */
+void access_err(char *NAME, char *cmd)
 {
-	fprintf(stderr, "%s: %s: Denied Access\n", Name, cmd);
+	fprintf(stderr, "%s: %s: Permission denied\n", NAME, cmd);
 }
 
-void exit_err(char *Name, char *u_input)
+/**
+ * exit_err - prints message if user inputs an invalid exit status
+ * @NAME: name of program
+ * @inputs: user input read by program
+ */
+void exit_err(char *NAME, char *inputs)
 {
-	char *token = strtok(u_input, "\n ");
+	char *token;
+
+	token = strtok(inputs, "\n ");
 	token = strtok(NULL, "\n ");
-
-	fprintf(stderr, "%s: %s: exit: incorrect number: %s\n", Name, cmd, token);
+	fprintf(stderr, "%s: %d: exit: incorrect number: %s\n", NAME, error_count, token);
 }
-
