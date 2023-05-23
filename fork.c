@@ -1,8 +1,7 @@
 #include "shell.h"
 
 /*
- * f_w_e - allows for the execution of arbitrary commands and arguments
- *
+ * f_w_exec - allows for the execution of arbitrary commands and arguments
  * @cmds - array of strings
  * @p_array - Path array
  * @env - environment variables
@@ -10,8 +9,7 @@
  * @u_input: input string
  *
  */
-
-void f_w_exec(char **cmds, char **p_array, char **env, char Name, char *u_input)
+void f_w_exec(char **cmds, char **p_array, char **env, char *Name, char *u_input)
 {
 	int exit_status;
 	int execute_check;
@@ -20,9 +18,9 @@ void f_w_exec(char **cmds, char **p_array, char **env, char Name, char *u_input)
 
 	if (pid == -1)
 	{
-		p_error(Name);
+		perror(Name);
 		exit_code = 1;
-		exit(1);
+		_exit(1);
 	}
 
 	else if (pid == 0)
@@ -31,20 +29,19 @@ void f_w_exec(char **cmds, char **p_array, char **env, char Name, char *u_input)
 
 		if (execute_check < 0)
 		{
-			execute_error(Name, cmds[0]);
-			free_array(p_array);
-			free_array(cmds);
-			free(u_inputs);
+			exec_err(Name, cmds[0]);
+			free_strings(p_array);
+			free_strings(cmds);
+			free(u_input);
 			exit_code = 111;
-			exit(111);
+			_exit(111);
 		}
 
 		exit_code = 0;
-		exit(0);
+		_exit(0);
 	}
 
 	exit_code = 0;
-	hold(&exit_status);
+	wait(&exit_status);
 }
-
 

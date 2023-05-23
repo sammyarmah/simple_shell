@@ -50,30 +50,30 @@ char **p_input(char *u_input, char **p_array, char *Name)
 	i = 0;
 	dir_path = NULL;
 
-	args = arg_counter(u_input);
+	args = arg_c(u_input);
 	cmds = malloc(sizeof(char *) * (args + 1));
 	if (cmds == NULL)
 	{
-		free_array(p_array);
+		free_strings(p_array);
 		return (NULL);
 	}
 	token = strtok(u_input, "\n ");
-	if (path_check(token) == -1)
+	if (path_prompt(token) == -1)
 	{
 		dir_path = find_path(p_array, token);
 		if (dir_path == NULL)
 		{
 			free(cmds);
-			free_array(p_array);
-			cmds_error(Name, token);
+			free_strings(p_array);
+			cmd_err(Name, token);
 			exit_code = 100;
 			return (NULL);
 		}
-		else if (_strcmp("no_access", dir_path) == 0)
+		else if (strcmp("no_access", dir_path) == 0)
 		{
 			free(cmds);
-			free_array(p_array);
-			access_error(Name, token);
+			free_strings(p_array);
+			access_err(Name, token);
 			exit_code = 111;
 			return (NULL);
 		}

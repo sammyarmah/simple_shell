@@ -8,7 +8,6 @@
 void free_strings(char **array)
 {
 	size_t i;
-	int i;
 
 	i = 0;
 	while (*array[i] != '\0')
