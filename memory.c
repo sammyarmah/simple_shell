@@ -7,13 +7,12 @@
 
 void free_strings(char **array)
 {
-	size_t i;
+	int i;
 
-	for (i = 0; *array[i] != '\0'; i++)
-	{
-		free(array[i]);
-	}
-
-	free(array);
-
+	if (array != NULL) {
+        for (i = 0; array[i] != NULL; i++) {
+            free(array[i]);
+        }
+        free(array);
+    }
 }
