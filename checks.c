@@ -1,10 +1,9 @@
 #include "shell.h"
 
-/*
- * exit_prompt - prints exit
+/**
+ *exit_prompt - prints exit
  * @u_input: checks if exit is inputed
- * @Name: program name
- *
+ * @NAME: program name
  * Return: 0 if success, otherwise -1
  */
 int exit_prompt(char *u_input, char *NAME)
