@@ -20,7 +20,6 @@ int arg_c(char *u)
 	{
 		if (u[i] != ' ')
 			start = 1;
-		
 		if (u[i] == ' ' && u[i + 1] != ' ' && u[i + 1] != '\n' && start == 1)
 			args++;
 		i++;
