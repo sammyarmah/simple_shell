@@ -7,10 +7,15 @@
  */
 void cmd_err(char *NAME, char *cmd)
 {
-	fprintf(stderr, "%s: %s: not found\n", NAME, cmd);
+	write(STDERR_FILENO, NAME, _strlen(NAME));
+	write(STDERR_FILENO, ": ", 2);
+	print_number(error_count);
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, cmd, _strlen(cmd));
+	write(STDERR_FILENO, ": not found\n", 13);
+
 	exit_code = 127;
 }
-
 /**
  * exec_err - prints error message when command fails to execute
  * @NAME: name of program
@@ -29,7 +34,10 @@ void exec_err(__attribute__((unused)) char *NAME, char *cmd)
  */
 void access_err(char *NAME, char *cmd)
 {
-	fprintf(stderr, "%s: %s: Permission denied\n", NAME, cmd);
+	write(STDERR_FILENO, NAME, _strlen(NAME));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, cmd, _strlen(cmd));
+	write(STDERR_FILENO, ": Permission denied\n", 20);
 }
 
 /**
@@ -43,5 +51,11 @@ void exit_err(char *NAME, char *inputs)
 
 	token = strtok(inputs, "\n ");
 	token = strtok(NULL, "\n ");
-	fprintf(stderr, "%s: %d: exit: incorrect number: %s\n", NAME, error_count, token);
+
+	write(STDERR_FILENO, NAME, _strlen(NAME));
+	write(STDERR_FILENO, ": ", 2);
+	print_number(error_count);
+	write(STDERR_FILENO, ": exit: Illegal number: ", 24);
+	write(STDERR_FILENO, token, _strlen(token));
+	write(STDERR_FILENO, "\n", 1);
 }

@@ -1,109 +1,113 @@
 #include "shell.h"
 
 /**
- * path_count - counts number of directories in PATH
+ * get_path_count - counts number of directories in PATH
  * @p: PATH string
  *
  * Return: number of directories
  */
-
-int path_count(char *p)
+int get_path_count(char *p)
 {
 	int i, len;
 
+	i = 0;
 	len = 0;
-	for (i = 0; p[i] != '\0'; i++)
+	while (p[i] != '\0')
 	{
 		if (p[i] == '=' || p[i] == ':')
 			len++;
+		i++;
 	}
+
 	return (len);
 }
 
 /**
- * path_array - Array  of PATH directories
+ * get_path_array - Array  of PATH directories
  * @env: user environment
  *
  * Return: array of strings
  */
 
-char **path_array(char **env)
+
+char **get_path_array(char **env)
 {
-	unsigned int i, j, p_count;
+	unsigned int i, j, path_len;
 	int comp = 0;
-	char *token, *token_2, *mypath;
-	char **path_arr;
+	char *token, *token2,  *mypath;
+	char **p_array;
 
 	i = 0;
 	j = 0;
 	while (env[i] != NULL)
 	{
 		comp = _strcmp(env[i], "PATH");
-		if (comp  == 0)
+		if (comp == 0)
 		{
 			mypath = _strdup(env[i]);
-			p_count = path_count(mypath);
+			path_len = get_path_count(mypath);
 			token = strtok(mypath, "=");
 			token = strtok(NULL, "=");
-			path_arr = malloc(sizeof(char *) * (p_count + 1));
-			if (path_arr == NULL)
+			p_array = malloc(sizeof(char *) * (path_len + 1));
+			if (p_array == NULL)
 				return (NULL);
 			if (token[0] == ':')
 			{
-				path_arr[j] = _strdup("./");
+				p_array[j] = _strdup("./");
 				j++;
-				token_2 = strtok(token, ":");
-				token_2 = strtok(NULL, ":");
+				token2 = strtok(token, ":");
+				token2 = strtok(NULL, ":");
 			}
 			else
-				token_2 = strtok(token, ":");
-			while (j < p_count)
+				token2 = strtok(token, ":");
+			while (j < path_len)
 			{
-				path_arr[j] = _strdup(token_2);
+				p_array[j] = _strdup(token2);
 				j++;
-				token_2 = strtok(NULL, ":");
+				token2 = strtok(NULL, ":");
 			}
 		}
 		i++;
 	}
-	path_arr[p_count] = NULL;
+	p_array[path_len] = NULL;
 	free(mypath);
-	return (path_arr);
+	return (p_array);
 }
 
 /**
- * find_path - find the PATH to a command
- * @array: array of directories in PATH
- * @cmd: command to find path for
+ * find_path - find the PATH of a command
+ * @p_array: array of directories in PATH
+ * @cmds: command to find path for
+ *
  * Return: path of command, NULL if it fails
  */
-char *find_path(char **array, char *cmd)
+char *find_path(char **p_array, char *cmds)
 {
 	int i, j, ok_f = 0, ok_x = 0, dir_len, com_len, total_len;
 	char *path;
 
-	for (i = 0; array[i] != NULL; i++)
+	for (i = 0; p_array[i] != NULL; i++)
 	{
-		dir_len = _strlen(array[i]);
-		com_len = _strlen(cmd);
+		dir_len = _strlen(p_array[i]);
+		com_len = _strlen(cmds);
 		total_len = dir_len + com_len;
 		path = malloc(sizeof(char) * (total_len + 2));
 		if (path == NULL)
 		{
-			free_strings(array);
+			free_strings(p_array);
 			return (NULL);
 		}
 		j = 0;
 		while (j < dir_len)
 		{
-			path[j] = array[i][j];
+			path[j] = p_array[i][j];
 			j++;
 		}
 		path[j] = '/';
 		j = 0;
 		while (j < com_len)
 		{
-			path[dir_len + j + 1] = cmd[j];
+			path[dir_len + j + 1] = cmds[j];
 			j++;
 		}
 		path[total_len + 1] = '\0';
@@ -112,7 +116,6 @@ char *find_path(char **array, char *cmd)
 		if (ok_f == 0)
 		{
 			if (ok_x == 0)
-
 				return (path);
 			free(path);
 			return ("no_access");
@@ -121,7 +124,6 @@ char *find_path(char **array, char *cmd)
 	}
 	return (NULL);
 }
-
 /**
  * print_env - print environment variables
  * @env: array of environment variables

@@ -11,27 +11,23 @@ int exit_prompt(char *u_input, char *NAME)
 {
 	int i, j, len, size, status;
 	char *num;
-	const char *exit_cmd = "exit";
+	char *check = "exit";
 
+	j = 0;
 	len = _strlen(u_input);
 	size = len - 5;
 	status = 0;
 	for (i = 0; i < 4; i++)
 	{
-		if (exit_cmd[i] != u_input[i])
+		if (check[i] != u_input[i])
 			return (0);
 	}
 	if (u_input[4] != '\n' && u_input[4] != ' ')
 		return (0);
+
 	if (len > 5)
 	{
-		num = malloc(sizeof(char) * (size + 1));
-		if (num == NULL)
-		{
-			perror("malloc");
-			return (-1);
-		}
-		j = 0;
+		num = malloc(sizeof(char) * size);
 		for (i = 5; i < len - 1; i++)
 		{
 			if (u_input[i] >= '0' && u_input[i] <= '9')
@@ -64,7 +60,7 @@ int exit_prompt(char *u_input, char *NAME)
 int empty_prompt(char *u_input)
 {
 	if (u_input[0] == '\n')
-		return (0);
+		return (1);
 
 	return (0);
 }
@@ -94,11 +90,17 @@ int path_prompt(char *cmd)
 
 int env_prompt(char *u_input)
 {
-	const char *env_cmd = "env";
-	
-	if (strcmp(u_input, env_cmd) == 0)
+	int i = 0;
+	char *env = "env";
+
+	if (_strlen(u_input) != 4)
 		return (0);
 
+	while (env[i] != '\0')
+	{
+		if (env[i] != u_input[i])
+			return (0);
+		i++;
+	}
 	return (1);
 }
-

@@ -9,9 +9,7 @@
 
 int arg_c(char *u)
 {
-	int i;
-	int args;
-	int start;
+	int i, args, start;
 
 	args = 1;
 	i = 0;
@@ -20,8 +18,8 @@ int arg_c(char *u)
 	{
 		if (u[i] != ' ')
 			start = 1;
-		
-		if (u[i] == ' ' && u[i + 1] != ' ' && u[i + 1] != '\n' && start == 1)
+		if (u[i] == ' ' && u[i + 1] != ' '
+		    && u[i + 1] != '\n' && start == 1)
 			args++;
 		i++;
 	}
@@ -37,18 +35,10 @@ int arg_c(char *u)
  * Return: array of args
  */
 
-char **p_input(char *u_input, char **p_array, char *Name)
+char **p_input(char *u_input, char **p_array, char *NAME)
 {
-
-	int args;
-	int i;
-	char **cmds;
-	char *token;
-	char *dir_path;
-
-	args = 1;
-	i = 0;
-	dir_path = NULL;
+	char **cmds, *token, *dir_path = NULL;
+	int args = 1, i = 0;
 
 	args = arg_c(u_input);
 	cmds = malloc(sizeof(char *) * (args + 1));
@@ -65,16 +55,16 @@ char **p_input(char *u_input, char **p_array, char *Name)
 		{
 			free(cmds);
 			free_strings(p_array);
-			cmd_err(Name, token);
-			exit_code = 100;
+			cmd_err(NAME, token);
+			exit_code = 127;
 			return (NULL);
 		}
-		else if (strcmp("no_access", dir_path) == 0)
+		else if (_strcmp("no_access", dir_path) == 0)
 		{
 			free(cmds);
 			free_strings(p_array);
-			access_err(Name, token);
-			exit_code = 111;
+			access_err(NAME, token);
+			exit_code = 126;
 			return (NULL);
 		}
 		cmds[0] = _strdup(dir_path);

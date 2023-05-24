@@ -9,11 +9,11 @@ void free_strings(char **array)
 {
 	size_t i;
 
-	i = 0;
-	while (*array[i] != '\0')
+	for (i = 0; *array[i] != '\0'; i++)
 	{
 		free(array[i]);
-		i++;
 	}
+
 	free(array);
+
 }

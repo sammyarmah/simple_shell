@@ -10,16 +10,15 @@ int error_count = 0;
  *
  * Return: 0 always
  */
-
 int main(__attribute__((unused)) int argc, char **argv, char **env)
 {
-	char  *inputs = NULL;
+	char *u_input = NULL;
+	char **cmds = NULL;
+	char **p_array = NULL;
 	size_t n = 0;
 	ssize_t nchars_read = 0;
+	char *NAME = argv[0];
 	int atty_is = isatty(0);
-	char **cmds = NULL;
-	char **path_arr = NULL;
-	char *name = argv[0];
 
 	signal(SIGINT, SIG_IGN);
 
@@ -27,32 +26,31 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 	{
 		error_count++;
 		if (atty_is)
-
 			write(STDOUT_FILENO, "$ ", 2);
-		nchars_read = getline(&inputs, &n, stdin);
+		nchars_read = getline(&u_input, &n, stdin);
 		if (nchars_read == -1)
 		{
-			free(inputs);
+			free(u_input);
 			exit(exit_code);
 		}
-		if (exit_prompt(inputs, name) == -1)
+		if (exit_prompt(u_input, NAME) == -1)
 			continue;
-		if (empty_prompt(inputs) == 1)
+		if (empty_prompt(u_input) == 1)
 			continue;
-		if (env_prompt(inputs) == 1)
+		if (env_prompt(u_input) == 1)
 		{
 			print_env(env);
 			continue;
 		}
-		path_arr = path_array(env);
-		cmds = p_input(inputs, path_arr, name);
+		p_array = get_path_array(env);
+		cmds = p_input(u_input, p_array, NAME);
 		if (cmds != NULL)
 		{
-			f_w_exec(cmds, path_arr, env, name, inputs);
+			f_w_exec(cmds, p_array, env, NAME, u_input);
 			free_strings(cmds);
-			free_strings(path_arr);
+			free_strings(p_array);
 		}
 	}
-
 	return (0);
 }
+	

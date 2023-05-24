@@ -1,68 +1,77 @@
 #include "shell.h"
 
 /**
- *_strlen - Get the length of a string
- *@s: string
- *Return: len
+ * _strlen - returns the length of a null-terminated string
+ * @str: string
+ *
+ * Return: length of string, minus null terminator
  */
-int _strlen(char *s)
+
+int _strlen(char *str)
 {
-	int len;
+	int len = 0;
 
-	len = 0;
-
-	while (s[len] != '\0')
+	while (str[len] != '\0')
 		len++;
+
 	return (len);
 }
 
+
 /**
- *_strcmp - used to compare 2 strings
- *@s1: string 1
- *@s2: string 2
- *Return: void
+ * _strcmp - compares two strings
+ * @s1: first string
+ * @s2: second string
+ *
+ * Return: difference of two strings (first minus second) or 0 if equal
  */
+
 int _strcmp(char *s1, char *s2)
 {
-	while ((*s1 != '\0' && *s2 != '\0') && *s1 == *s2)
+	int index;
+
+	for (index = 0; s1[index] != '\0' && s2[index] != '\0'; index++)
 	{
-		s1++;
-		s2++;
+		if (s1[index] < s2[index])
+			return (s1[index] - s2[index]);
+
+		else if (s1[index] > s2[index])
+			return (s1[index] - s2[index]);
 	}
-	if (*s1 == *s2)
-	{
-		return (0);
-	}
-	else
-	{
-		return (*s1 - *s2);
-	}
+
+	return (0);
 }
+
+
 /**
-  *_strdup - returns a pointer to a newly allocated space in memory
-  *@str: string
-  *Return: dest
-  */
+ * _strdup - returns a pointer to a newly allocated space in memory
+ * @str: string
+ * Return: pointer to newly allocated space in memory
+ */
+
 char *_strdup(char *str)
 {
-	char *dest;
-	unsigned int len, i;
+	int length, i;
+	char *arr;
 
+	length = 0;
 	if (str == NULL)
-	{
 		return (NULL);
-	}
-	len = _strlen(str) + 1;
-	dest = malloc(sizeof(char) * len);
-	if (dest == NULL)
-	{
+
+	length = _strlen(str);
+
+	arr = malloc((length + 1) * sizeof(char));
+	if (arr == NULL)
 		return (NULL);
-	}
-	for (i = 0; i < len; i++)
-		dest[i] = str[i];
-	dest[i] = '\0';
-	return (dest);
+
+	for (i = 0; i < length; i++)
+		arr[i] = str[i];
+
+	arr[i] = '\0';
+
+	return (arr);
 }
+
 /**
 * _putchar - prints a single character to stdout
 * @c: The character to print
@@ -73,24 +82,4 @@ char *_strdup(char *str)
 int _putchar(char c)
 {
 	return (write(STDOUT_FILENO, &c, 1));
-}
-
-/**
- *_strncpy - Copy src string to dest string
- *@dest: destination string
- *@src: source string
- *@n: int
- *Return: dest
- */
-char *_strncpy(char *dest, char *src, int n)
-{
-	int i;
-
-	for (i = 0; i < n && src[i] != '\0'; i++)
-	{
-		dest[i] = src[i];
-	}
-	for (; i < n; i++)
-		dest[i] = '\0';
-	return (dest);
 }
