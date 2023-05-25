@@ -30,7 +30,7 @@ int arg_c(char *u)
  * p_input - creates an array of strings
  * @u_input: string to be tokenized
  * @p_array: the path array
- * @Name: program name
+ * @NAME: program name
  *
  * Return: array of args
  */
