@@ -9,7 +9,8 @@
  * @u_input: input string
  *
  */
-void f_w_exec(char **cmds, char **p_array, char **env, char *NAME, char *u_input)
+void f_w_exec(char **cmds, char **p_array, char **env, char *NAME,
+char *u_input)
 {
 	pid_t pid;
 	int status, exec_check;
@@ -20,7 +21,7 @@ void f_w_exec(char **cmds, char **p_array, char **env, char *NAME, char *u_input
 	if (pid == -1)
 	{
 		perror(NAME);
-		exit_code= 1;
+		exit_code = 1;
 		_exit(1);
 	}
 
