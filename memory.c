@@ -3,17 +3,19 @@
 /**
  * free_strings - free an array of strings
  * @array: array to free
+ *Return: Void
  */
 
 void free_strings(char **array)
 {
-	size_t i;
+	int i;
 
-	for (i = 0; *array[i] != '\0'; i++)
+	if (array != NULL)
 	{
-		free(array[i]);
+		for (i = 0; array[i] != NULL; i++)
+		{
+			free(array[i]);
+		}
+		free(array);
 	}
-
-	free(array);
-
 }
